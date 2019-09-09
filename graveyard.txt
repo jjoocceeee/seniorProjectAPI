@@ -1,0 +1,11 @@
+GRAPHQL QUERIES
+
+mutation{
+  addStockToUniverse(record:{
+    name:"Microsoft",
+    IPO_date:"1986-03-13T09:00:00.000Z",
+    ticker:"MSFT"
+  }){
+    recordId
+    }
+  }
