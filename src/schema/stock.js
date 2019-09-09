@@ -1,6 +1,6 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose/node8';
 import mongoose, { mongo } from 'mongoose';
-import { schemaComposer } from 'graphql-compose';
+
 
 
 const priceSchema = new mongoose.Schema({
@@ -96,35 +96,4 @@ const PriceTC = composeWithMongoose(Price, customizationOptions);
 const RatingTC = composeWithMongoose(Rating, customizationOptions);
 
 
-
-// STEP 3: Add needed CRUD User operations to the GraphQL Schema
-// via graphql-compose it will be much much easier, with less typing
-schemaComposer.Query.addFields({
-  stockById: StockTC.getResolver('findById'),
-  stockByIds: StockTC.getResolver('findByIds'),
-  stockOne: StockTC.getResolver('findOne'),
-  stockMany: StockTC.getResolver('findMany'),
-  stockCount: StockTC.getResolver('count'),
-  stockConnection: StockTC.getResolver('connection'),
-  stockPagination: StockTC.getResolver('pagination'),
-
-  priceById: PriceTC.getResolver('findById'),
-  priceByIds: PriceTC.getResolver('findByIds'),
-  priceOne: PriceTC.getResolver('findOne'),
-  priceMany: PriceTC.getResolver('findMany'),
-  priceCount: PriceTC.getResolver('count'),
-  priceConnection: PriceTC.getResolver('connection'),
-  pricePagination: PriceTC.getResolver('pagination'),
-});
-
-schemaComposer.Mutation.addFields({
-  addStockToUniverse: StockTC.getResolver('createOne'),
-  insertPrice: PriceTC.getResolver('createOne'),
-  insertRating: RatingTC.getResolver('createOne'),
-});
-
-//TODO: Add stock price to a mutation.
-
-
-const schema = schemaComposer.buildSchema();
-export default schema;
+export { StockTC, PriceTC, RatingTC };
