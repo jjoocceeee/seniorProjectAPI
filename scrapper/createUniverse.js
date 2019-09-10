@@ -41,25 +41,15 @@ async function createUniverse(ticker){
  *                  '5. volume': '19745100' }
  *
  */
-async function recordOpenClose(date, priceObject, ticker){
-  //Convert Date to YYYY-MM-DDTHH:MM:SS.SSSZ
-    let newDate = format(new Date(date), "yyyy-MM-dd'T00':mm:ss.SSS'Z'");
+async function addToUniverse(date, ticker){
 
-    //Get the open price and the closing price
-    let open = priceObject['1. open'];
-    let close = priceObject['4. close'];
-    let volume = priceObject['5. volume'];
     let payload = `
-    mutation{
-      insertPrice(record:{
-        openPrice:${open},
-        closePrice:${close},
-        date:"${newDate}",
-        ticker:"${ticker}",
-        volume:${volume}
-      })
-      {
-        recordId
+    mutation {
+      addStockToUniverse(record: {ticker: "AMZ", name: "Amazon", IPO_date: "1986-03-13T09:00:00.000Z"}) {
+        record {
+          ticker
+          _id
+        }
       }
     }
       `

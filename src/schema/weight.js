@@ -4,7 +4,7 @@ import { schemaComposer } from 'graphql-compose';
 
 
 const weightSchema = new mongoose.Schema({
-  company: {
+  ticker: {
     type: String,
     descpription: "Ticker the weight belongs to",
     required: true
