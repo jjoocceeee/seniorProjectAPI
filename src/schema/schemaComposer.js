@@ -30,7 +30,6 @@ schemaComposer.Mutation.addFields({
   insertWeight: WeightTC.getResolver('createOne')
 });
 
-//TODO: Add stock price to a mutation.
 
 
 const schema = schemaComposer.buildSchema();

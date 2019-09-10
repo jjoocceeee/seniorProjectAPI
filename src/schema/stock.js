@@ -19,11 +19,6 @@ const priceSchema = new mongoose.Schema({
     description: "Volume of Stocks sold that day.",
     required: true
   }, 
-  // type: {
-  //   type: String,
-  //   enum: [ 'open', 'close', 'interday', 'afterhours' ],
-  //   required: true
-  // },
   date: {
     type: Date,
     description: "Date-Time for this price.",

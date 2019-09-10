@@ -4,6 +4,11 @@ import { schemaComposer } from 'graphql-compose';
 
 
 const weightSchema = new mongoose.Schema({
+  company: {
+    type: String,
+    descpription: "Ticker the weight belongs to",
+    required: true
+  },
   twitterWeight: {
     type: Number,
     description: "Twitter weight",
