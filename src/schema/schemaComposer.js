@@ -1,5 +1,6 @@
 import { schemaComposer } from 'graphql-compose';
-import { StockTC, PriceTC, RatingTC } from './stock';
+import { StockTC, RatingTC } from './stock';
+import { PriceTC } from './price';
 import { WeightTC } from './weight';
 
 schemaComposer.Query.addFields({
@@ -20,7 +21,9 @@ schemaComposer.Query.addFields({
   pricePagination: PriceTC.getResolver('pagination'),
 
   weightById: WeightTC.getResolver('findById'),
-  weightMany: WeightTC.getResolver('findMany')
+  weightMany: WeightTC.getResolver('findMany'),
+  getTwentyDayHigh: PriceTC.getResolver('checkTwentyDayHigh'),
+  fourCandleHammer: PriceTC.getResolver('fourCandleHammer')
 });
 
 schemaComposer.Mutation.addFields({

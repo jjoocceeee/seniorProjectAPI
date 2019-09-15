@@ -1,38 +1,6 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose/node8';
 import mongoose, { mongo } from 'mongoose';
 
-
-
-const priceSchema = new mongoose.Schema({
-  openPrice: {
-    type: Number,
-    description: "Opening Price of Stock.",
-    required: true
-  }, 
-  closePrice: {
-    type: Number,
-    description: "Closing Price of Stock.",
-    required: true
-  }, 
-  volume: {
-    type: Number,
-    description: "Volume of Stocks sold that day.",
-    required: true
-  }, 
-  date: {
-    type: Date,
-    description: "Date-Time for this price.",
-    required: true
-  },
-  ticker: {
-    type: String,
-    description: "Stock this price is associated with.",
-    required: true,
-    index:true
-  }
-});
-
-
 const StockSchema = new mongoose.Schema({
   ticker:{
     type:String,
@@ -50,6 +18,13 @@ const StockSchema = new mongoose.Schema({
     description: "Date of IPO."
   }
 });
+
+
+
+
+
+
+
 
 
 const RatingSchema = new mongoose.Schema({
@@ -78,8 +53,9 @@ const RatingSchema = new mongoose.Schema({
 });
 
 
+
+
 const Stock = mongoose.model('Stock', StockSchema);
-const Price = mongoose.model('Price', priceSchema);
 const Rating = mongoose.model('Rating', RatingSchema);
 
 
@@ -87,8 +63,12 @@ const Rating = mongoose.model('Rating', RatingSchema);
 // STEP 2: CONVERT MONGOOSE MODEL TO GraphQL PIECES
 const customizationOptions = {};
 const StockTC = composeWithMongoose(Stock, customizationOptions);
-const PriceTC = composeWithMongoose(Price, customizationOptions);
+
 const RatingTC = composeWithMongoose(Rating, customizationOptions);
 
 
-export { StockTC, PriceTC, RatingTC };
+export { StockTC, RatingTC };
+
+
+
+// TODO: Get 20 day high
