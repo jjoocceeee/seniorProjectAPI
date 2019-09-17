@@ -2,6 +2,7 @@ import { schemaComposer } from 'graphql-compose';
 import { StockTC, RatingTC } from './stock';
 import { PriceTC } from './price';
 import { WeightTC } from './weight';
+import { TweetTC } from './tweets';
 
 schemaComposer.Query.addFields({
   stockById: StockTC.getResolver('findById'),
@@ -22,15 +23,21 @@ schemaComposer.Query.addFields({
 
   weightById: WeightTC.getResolver('findById'),
   weightMany: WeightTC.getResolver('findMany'),
+
+  tweetById: TweetTC.getResolver('findById'),
+  tweetMany: TweetTC.getResolver('findMany'),
+
   getTwentyDayHigh: PriceTC.getResolver('checkTwentyDayHigh'),
-  fourCandleHammer: PriceTC.getResolver('fourCandleHammer')
+  fourCandleHammer: PriceTC.getResolver('fourCandleHammer'),
+  
 });
 
 schemaComposer.Mutation.addFields({
   addStockToUniverse: StockTC.getResolver('createOne'),
   insertPrice: PriceTC.getResolver('createOne'),
   insertRating: RatingTC.getResolver('createOne'),
-  insertWeight: WeightTC.getResolver('createOne')
+  insertWeight: WeightTC.getResolver('createOne'),
+  insertTweet: TweetTC.getResolver('createOne')
 });
 
 

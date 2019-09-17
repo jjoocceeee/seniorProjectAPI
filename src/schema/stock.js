@@ -22,11 +22,6 @@ const StockSchema = new mongoose.Schema({
 
 
 
-
-
-
-
-
 const RatingSchema = new mongoose.Schema({
   type: {
     type: String,
@@ -57,8 +52,6 @@ const RatingSchema = new mongoose.Schema({
 
 const Stock = mongoose.model('Stock', StockSchema);
 const Rating = mongoose.model('Rating', RatingSchema);
-
-
 
 // STEP 2: CONVERT MONGOOSE MODEL TO GraphQL PIECES
 const customizationOptions = {};
