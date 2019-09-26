@@ -9,3 +9,16 @@ mutation{
     recordId
     }
   }
+
+
+
+
+query{
+  MostRecentWeight(ticker: "TEST") {
+    twitterWeight
+    fourWeight
+    profitWeight
+    companyWeight
+    date
+  }
+}

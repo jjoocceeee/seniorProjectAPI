@@ -43,6 +43,23 @@ const weightSchema = new mongoose.Schema({
 
 
 const Weight = mongoose.model('Weight', weightSchema);
-
 const customizationOptions = {};
 export const WeightTC = composeWithMongoose(Weight, customizationOptions);
+
+WeightTC.addResolver({
+  name: "MostRecentWeight",
+  type: "Weight",
+  args: {
+    ticker: "String!"
+  },
+  resolve: async ({args, source, context}) => {
+    console.log("Getting most recent weight.");
+
+    let response = await Weight.find({'ticker':args.ticker}).sort({ _id: -1 });
+    console.log(response);
+    return response[0];
+  }
+})
+
+
+

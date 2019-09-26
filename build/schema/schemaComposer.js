@@ -32,6 +32,7 @@ _graphqlCompose.schemaComposer.Query.addFields({
   pricePagination: _price.PriceTC.getResolver('pagination'),
   weightById: _weight.WeightTC.getResolver('findById'),
   weightMany: _weight.WeightTC.getResolver('findMany'),
+  MostRecentWeight: _weight.WeightTC.getResolver('MostRecentWeight'),
   tweetById: _tweets.TweetTC.getResolver('findById'),
   tweetMany: _tweets.TweetTC.getResolver('findMany'),
   getTwentyDayHigh: _price.PriceTC.getResolver('checkTwentyDayHigh'),

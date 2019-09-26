@@ -10,7 +10,6 @@ schemaComposer.Query.addFields({
   stockOne: StockTC.getResolver('findOne'),
   stockMany: StockTC.getResolver('findMany'),
   stockCount: StockTC.getResolver('count'),
-  stockConnection: StockTC.getResolver('connection'),
   stockPagination: StockTC.getResolver('pagination'),
 
   priceById: PriceTC.getResolver('findById'),
@@ -18,11 +17,11 @@ schemaComposer.Query.addFields({
   priceOne: PriceTC.getResolver('findOne'),
   priceMany: PriceTC.getResolver('findMany'),
   priceCount: PriceTC.getResolver('count'),
-  priceConnection: PriceTC.getResolver('connection'),
   pricePagination: PriceTC.getResolver('pagination'),
 
   weightById: WeightTC.getResolver('findById'),
   weightMany: WeightTC.getResolver('findMany'),
+  MostRecentWeight: WeightTC.getResolver('MostRecentWeight'),
 
   tweetById: TweetTC.getResolver('findById'),
   tweetMany: TweetTC.getResolver('findMany'),
