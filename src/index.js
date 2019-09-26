@@ -1,6 +1,4 @@
 import express from 'express';
-require("babel-core/register");
-require("babel-polyfill");
 import 'dotenv/config';
 import schema from "./schema/schemaComposer.js"
 var mongoose = require('mongoose');

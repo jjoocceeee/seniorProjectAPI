@@ -8,10 +8,6 @@ require("dotenv/config");
 
 var _schemaComposer = _interopRequireDefault(require("./schema/schemaComposer.js"));
 
-require("babel-core/register");
-
-require("babel-polyfill");
-
 var mongoose = require('mongoose');
 
 var graphql = require('graphql');
