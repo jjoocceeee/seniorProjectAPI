@@ -64,32 +64,34 @@ var WeightTC = (0, _node.composeWithMongoose)(Weight, customizationOptions);
 exports.WeightTC = WeightTC;
 WeightTC.addResolver({
   name: "MostRecentWeight",
-  type: "Boolean",
+  type: "Weight",
   args: {
-    date: "Date!",
     ticker: "String!"
   },
   resolve: function () {
     var _resolve = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
     _regenerator["default"].mark(function _callee(_ref) {
-      var args, source, context;
+      var args, source, context, response;
       return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               args = _ref.args, source = _ref.source, context = _ref.context;
-              _context.next = 3;
+              console.log("Getting most recent weight.");
+              _context.next = 4;
               return Weight.find({
-                'ticker': ticker
+                'ticker': args.ticker
               }).sort({
                 _id: -1
               });
 
-            case 3:
-              return _context.abrupt("return", _context.sent);
-
             case 4:
+              response = _context.sent;
+              console.log(response);
+              return _context.abrupt("return", response[0]);
+
+            case 7:
             case "end":
               return _context.stop();
           }
