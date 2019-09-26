@@ -1,12 +1,16 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 var _express = _interopRequireDefault(require("express"));
 
 require("dotenv/config");
 
-var _stock = _interopRequireDefault(require("./schema/stock.js"));
+var _schemaComposer = _interopRequireDefault(require("./schema/schemaComposer.js"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+require("babel-core/register");
+
+require("babel-polyfill");
 
 var mongoose = require('mongoose');
 
@@ -26,7 +30,7 @@ var main = function main() {
     console.log('+++Connected to mongoose');
   });
   app.use('/graphql', expressGraphql({
-    schema: _stock["default"],
+    schema: _schemaComposer["default"],
     graphiql: true
   }));
   app.get('/', function (req, res) {
