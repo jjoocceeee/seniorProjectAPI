@@ -24,7 +24,7 @@ const weightSchema = new mongoose.Schema({
     description: "Profit Loss Ratio Weight",
     required: true
   }, 
-  movingWeigth: {
+  movingWeight: {
     type: Number,
     description: "20-day Moving Average Weight",
     required: true
