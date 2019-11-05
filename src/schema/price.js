@@ -91,16 +91,6 @@ PriceTC.addResolver({
         price_array.push(prices);
       }))
       return price_array;
-      // _.forEach(universe.universe, async (stock) =>{
-      //   let prices = await Price.findOne({
-      //     'date':indexDate,
-      //     'ticker': stock.ticker
-      //   });
-      //   console.log(prices);
-      //   price_array.push(prices);
-      // })
-      console.log("PRice array: ", price_array);
-
   }
 });
 
