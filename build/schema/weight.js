@@ -53,7 +53,8 @@ var weightSchema = new _mongoose["default"].Schema({
   date: {
     type: Date,
     description: "Date-Time for this price.",
-    required: true
+    required: true,
+    index: true
   }
 });
 

@@ -16,23 +16,18 @@ var _weight = require("./weight");
 var _tweets = require("./tweets");
 
 _graphqlCompose.schemaComposer.Query.addFields({
-  stockById: _stock.StockTC.getResolver('findById'),
-  stockByIds: _stock.StockTC.getResolver('findByIds'),
   stockOne: _stock.StockTC.getResolver('findOne'),
   stockMany: _stock.StockTC.getResolver('findMany'),
   stockCount: _stock.StockTC.getResolver('count'),
   stockPagination: _stock.StockTC.getResolver('pagination'),
-  priceById: _price.PriceTC.getResolver('findById'),
-  priceByIds: _price.PriceTC.getResolver('findByIds'),
   priceOne: _price.PriceTC.getResolver('findOne'),
   priceMany: _price.PriceTC.getResolver('findMany'),
   priceCount: _price.PriceTC.getResolver('count'),
   pricePagination: _price.PriceTC.getResolver('pagination'),
-  weightById: _weight.WeightTC.getResolver('findById'),
   weightMany: _weight.WeightTC.getResolver('findMany'),
   MostRecentWeight: _weight.WeightTC.getResolver('MostRecentWeight'),
-  tweetById: _tweets.TweetTC.getResolver('findById'),
   tweetMany: _tweets.TweetTC.getResolver('findMany'),
+  pricesUniverse: _price.PriceTC.getResolver('pricesUniverse'),
   getTwentyDayHigh: _price.PriceTC.getResolver('checkTwentyDayHigh'),
   fourCandleHammer: _price.PriceTC.getResolver('fourCandleHammer')
 });
