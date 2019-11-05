@@ -5,8 +5,6 @@ var mongoose = require('mongoose');
 var graphql = require('graphql');
 var expressGraphql = require('express-graphql');
 
-
-
 const main = () => {
   const app = express();
   console.log("Data base name: ", process.env.MONGODB_URI);

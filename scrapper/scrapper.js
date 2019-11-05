@@ -9,21 +9,20 @@ if (result.error) {
 }
  
 async function ScrapDailyData(ticker){
-  console.log("API KEY IS: ", process.env.MONGODB_URI);
-
   let response = await axios.get('https://www.alphavantage.co/query', {
     params: {
       function:'TIME_SERIES_DAILY',
       symbol:ticker,
       apikey:process.env.ALPHAVANTAGEAPIKEY
     }
+  }).catch((e)=>{
+    console.log("Unable to Get Data.")
+    console.log("Error: ", e)
   });
 if(response.status != 200){
   console.log("There was an error in the response: ", response.status);
   return;
 }
-  // console.log(response.data);
-  //Loop through all the days and input them into database.
   let timeSeries = response.data['Time Series (Daily)'];
   // console.log(timeSeries);
   _.forEach(timeSeries, function(value, key) {
@@ -69,14 +68,16 @@ async function recordOpenClose(date, priceObject, ticker){
       }
     }
       `
-
-    // console.log("Payload: ", payload);
+    console.log("Date: ", newDate);
     let response = await axios({
       url: process.env.APIENDPOINT,
       method: 'post',
       data: {
         query: payload
       }
+    }).catch((e)=>{
+      console.log("Unable to make request.")
+      console.log("Error: ", e)
     });
     
     if(response.status != 200){
@@ -89,14 +90,15 @@ async function recordOpenClose(date, priceObject, ticker){
 
 
 // let priceObject = {}
-let priceObject = { '1. open': '120.6400',
-'2. high': '120.9800',
-'3. low': '120.3700',
-'4. close': '120.9500',
-'5. volume': '19745100' }
+// let priceObject = { '1. open': '120.6400',
+// '2. high': '120.9800',
+// '3. low': '120.3700',
+// '4. close': '120.9500',
+// '5. volume': '19745100' }
 // recordOpenClose('2019-04-12', priceObject);
 
 async function main(){
+  console.log("Starting");
   _.forEach(universe, (stock) => {
     ScrapDailyData(stock.ticker);
   });

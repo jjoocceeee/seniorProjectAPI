@@ -1,10 +1,13 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose/node8';
 import mongoose, { mongo } from 'mongoose';
+import universe from '../universe';
+// import { addHours } from 'date-fns/esm';
 
 var _ = require('lodash');
 var addDays = require('date-fns/addDays');
 var differenceInDays = require('date-fns/differenceInDays')
-
+var subDays = require('date-fns/subDays')
+var format = require('date-fns/format')
 const priceSchema = new mongoose.Schema({
   openPrice: {
     type: Number,
@@ -24,7 +27,8 @@ const priceSchema = new mongoose.Schema({
   date: {
     type: Date,
     description: "Date-Time for this price.",
-    required: true
+    required: true,
+    index: true
   },
   ticker: {
     type: String,
@@ -65,6 +69,38 @@ PriceTC.addResolver({
         //Check for a pullback.
         return await checkPullBack(twenty.highPrice, -4, indexDate, args.ticker);
       }
+  }
+});
+
+
+//Get the price for today for each product 
+PriceTC.addResolver({
+  name: "pricesUniverse",
+  type: ["Price"],
+  resolve: async ({args, source, context}) => {
+      let indexDate = format(subDays(new Date(), 1), 'yyyy-MM-dd')+"T00:00:00.000Z";
+      console.log(indexDate);
+      let price_array = [];
+
+      await Promise.all(universe.universe.map(async (stock)=>{
+        let prices = await Price.findOne({
+          'date':indexDate,
+          'ticker': stock.ticker
+        });
+        if(prices)
+        price_array.push(prices);
+      }))
+      return price_array;
+      // _.forEach(universe.universe, async (stock) =>{
+      //   let prices = await Price.findOne({
+      //     'date':indexDate,
+      //     'ticker': stock.ticker
+      //   });
+      //   console.log(prices);
+      //   price_array.push(prices);
+      // })
+      console.log("PRice array: ", price_array);
+
   }
 });
 
