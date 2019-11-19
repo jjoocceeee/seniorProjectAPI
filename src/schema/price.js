@@ -1,6 +1,9 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose/node8';
 import mongoose, { mongo } from 'mongoose';
 import universe from '../universe';
+var moment = require('moment-business-days');
+var momentTZ = require('moment-timezone');
+
 // import { addHours } from 'date-fns/esm';
 
 var _ = require('lodash');
@@ -8,6 +11,12 @@ var addDays = require('date-fns/addDays');
 var differenceInDays = require('date-fns/differenceInDays')
 var subDays = require('date-fns/subDays')
 var format = require('date-fns/format')
+
+
+moment.updateLocale('us', {
+  workingWeekdays: [1, 2, 3, 4, 5]
+});
+
 const priceSchema = new mongoose.Schema({
   openPrice: {
     type: Number,
@@ -35,7 +44,24 @@ const priceSchema = new mongoose.Schema({
     description: "Stock this price is associated with.",
     required: true,
     index:true
+  },
+  bull: {
+    type: Boolean,
+    desctption: "Whether or not the stock is up from the previous day."
   }
+});
+
+
+priceSchema.post('save', async function() {
+  let prev = momentTZ(this.date).tz("America/Phoenix").prevBusinessDay().format('YYYY-MM-DD') + "T00:00:00.000Z";
+    console.log("Previous: ", prev)
+    let yestPrice = await Price.findOne({
+      'date':prev,
+      'ticker': this.ticker 
+    });
+    if(yestPrice){
+      this.bull= prev.closePrice < this.openPrice
+    }
 });
 
 const Price = mongoose.model('Price', priceSchema);
@@ -51,6 +77,22 @@ PriceTC.addResolver({
   },
   resolve: async ({args, source, context}) => {
     return await CheckTwentyDay(args.date).highCheck
+  }
+})
+
+
+PriceTC.addResolver({
+  name: "UpdateBull",
+  type: "Boolean",
+  resolve: async({args, source, context}) => {
+    let prev = momentTZ(new Date()).tz("America/Phoenix").prevBusinessDay().format('YYYY-MM-DD') + "T00:00:00.000Z";
+
+    let prices1 = await Price.findOne({
+      'date':prev,
+      'ticker': args.ticker
+    });
+
+
   }
 })
 

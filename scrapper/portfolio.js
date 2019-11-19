@@ -37,23 +37,12 @@ if(response.status != 200){
  * Will input the daily stock prices recieved from Alpha Vantage into the database. 
  *
  * PARAMETERS: 
- * date: YYYY-MM-dd
- * priceObject => JSON object holding price info for that day.
- *                { '1. open': '120.6400',
- *                  '2. high': '120.9800',
- *                  '3. low': '120.3700',
- *                  '4. close': '120.9500',
- *                  '5. volume': '19745100' }
- *
  */
 async function recordOpenClose(date, priceObject, ticker){
   //Convert Date to YYYY-MM-DDTHH:MM:SS.SSSZ
     let newDate = format(new Date(date), "yyyy-MM-dd'T00':mm:ss.SSS'Z'");
 
     //Get the open price and the closing price
-    let open = priceObject['1. open'];
-    let close = priceObject['4. close'];
-    let volume = priceObject['5. volume'];
     let payload = `
     mutation{
       insertPrice(record:{
@@ -80,78 +69,38 @@ async function recordOpenClose(date, priceObject, ticker){
       console.log("Error: ", e)
     });
     
-    // if(response.status != 200){
-    //   console.log("There was an error in the response: ", response.status);
-    //   return;
-    // }
-    // console.log(response.data);
+    if(response.status != 200){
+      console.log("There was an error in the response: ", response.status);
+      return;
+    }
+    console.log(response.data);
 
 }
-
-
-// let priceObject = {}
-// let priceObject = { '1. open': '120.6400',
-// '2. high': '120.9800',
-// '3. low': '120.3700',
-// '4. close': '120.9500',
-// '5. volume': '19745100' }
-// recordOpenClose('2019-04-12', priceObject);
+// POSITION EXAMPLE
+// {
+//   "asset_id": "3bd2f8c7-ceb9-4916-8a1e-4bcf3654efd9",
+//   "symbol": "SQ",
+//   "exchange": "NYSE",
+//   "asset_class": "us_equity",
+//   "qty": "207",
+//   "avg_entry_price": "72.6166666666666667",
+//   "side": "long",
+//   "market_value": "12761.55",
+//   "cost_basis": "15031.65",
+//   "unrealized_pl": "-2270.1",
+//   "unrealized_plpc": "-0.1510213449621299",
+//   "unrealized_intraday_pl": "-442.98",
+//   "unrealized_intraday_plpc": "-0.0335475779902806",
+//   "current_price": "61.65",
+//   "lastday_price": "63.79",
+//   "change_today": "-0.0335475779902806"
+// },
 
 async function main(){
   console.log("Starting");
-  _.forEach(universe, (stock) => {
-    ScrapDailyData(stock.ticker);
-  });
+
 
 }
-
-let universe = [
-  {
-    ticker:'AMZN',
-    company:'Amazon',
-    ipo_date:"1997-03-15T09:00:00.000Z"
-  },  
-  {
-    ticker:'TSLA',
-    company:'Tesla',
-    ipo_date:"2010-06-29T09:00:00.000Z"
-  },
-  {
-    ticker:'WMT',
-    company:'Walmart',
-    ipo_date:"1972-08-25T09:00:00.000Z"
-  },
-  {
-    ticker:'AAPL',
-    company:'Apple',
-    ipo_date:"1980-12-12T09:00:00.000Z"
-  },
-  {
-    ticker:'JNJ',
-    company:'Johnson & Johnson',
-    ipo_date:"1944-09-24T09:00:00.000Z"
-  },
-  {
-    ticker:'GOOG',
-    company:'Google',
-    ipo_date:"2004-08-19T09:00:00.000Z"
-  },
-  {
-    ticker:'XOM',
-    company:'Exxon',
-    ipo_date:"1978-01-13T09:00:00.000Z"
-  },
-  {
-    ticker:'GE',
-    company:'General Electric',
-    ipo_date:"1978-01-13T09:00:00.000Z"
-  },
-  {
-    ticker:'JPM',
-    company:'JPMorgan',
-    ipo_date:"1980-04-01T09:00:00.000Z"
-  },
-];
 
 main();
 

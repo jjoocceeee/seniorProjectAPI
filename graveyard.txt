@@ -22,3 +22,15 @@ query{
     date
   }
 }
+
+
+
+mutation{
+ insertPrice(record:{ticker:"TEST", date:"2019-11-14T00:00:00.000Z", openPrice:56.0, closePrice:980.0, volume:100}){
+  record{
+    bull
+    openPrice
+    date
+  }
+}
+}

@@ -3,6 +3,7 @@ import { StockTC, RatingTC } from './stock';
 import { PriceTC } from './price';
 import { WeightTC } from './weight';
 import { TweetTC } from './tweets';
+import { AccountTC } from './alpaca';
 
 schemaComposer.Query.addFields({
   stockOne: StockTC.getResolver('findOne'),
@@ -23,6 +24,9 @@ schemaComposer.Query.addFields({
   pricesUniverse: PriceTC.getResolver('pricesUniverse'),
   getTwentyDayHigh: PriceTC.getResolver('checkTwentyDayHigh'),
   fourCandleHammer: PriceTC.getResolver('fourCandleHammer'),
+
+  getPositions: AccountTC.getResolver('getPositions'),
+  UpdateBull: PriceTC.getResolver('UpdateBull')
   
 });
 
