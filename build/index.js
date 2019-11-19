@@ -12,10 +12,13 @@ var mongoose = require('mongoose');
 
 var graphql = require('graphql');
 
+var cors = require('cors');
+
 var expressGraphql = require('express-graphql');
 
 var main = function main() {
   var app = (0, _express["default"])();
+  app.use(cors());
   console.log("Data base name: ", process.env.MONGODB_URI);
   mongoose.connect(process.env.MONGODB_URI);
   var db = mongoose.connection;

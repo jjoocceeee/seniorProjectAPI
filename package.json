@@ -9,6 +9,7 @@
     "@alpacahq/alpaca-trade-api": "^1.2.6",
     "@babel/runtime": "^7.6.2",
     "axios": "^0.19.0",
+    "cors": "^2.8.5",
     "date-fns": "^2.2.1",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",

@@ -15,6 +15,8 @@ var _weight = require("./weight");
 
 var _tweets = require("./tweets");
 
+var _alpaca = require("./alpaca");
+
 _graphqlCompose.schemaComposer.Query.addFields({
   stockOne: _stock.StockTC.getResolver('findOne'),
   stockMany: _stock.StockTC.getResolver('findMany'),
@@ -29,7 +31,9 @@ _graphqlCompose.schemaComposer.Query.addFields({
   tweetMany: _tweets.TweetTC.getResolver('findMany'),
   pricesUniverse: _price.PriceTC.getResolver('pricesUniverse'),
   getTwentyDayHigh: _price.PriceTC.getResolver('checkTwentyDayHigh'),
-  fourCandleHammer: _price.PriceTC.getResolver('fourCandleHammer')
+  fourCandleHammer: _price.PriceTC.getResolver('fourCandleHammer'),
+  getPositions: _alpaca.AccountTC.getResolver('getPositions'),
+  UpdateBull: _price.PriceTC.getResolver('UpdateBull')
 });
 
 _graphqlCompose.schemaComposer.Mutation.addFields({

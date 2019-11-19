@@ -3,10 +3,14 @@ import 'dotenv/config';
 import schema from "./schema/schemaComposer.js"
 var mongoose = require('mongoose');
 var graphql = require('graphql');
+var cors = require('cors');
 var expressGraphql = require('express-graphql');
 
 const main = () => {
   const app = express();
+
+  app.use(cors());
+
   console.log("Data base name: ", process.env.MONGODB_URI);
   mongoose.connect(process.env.MONGODB_URI);
   var db = mongoose.connection;
