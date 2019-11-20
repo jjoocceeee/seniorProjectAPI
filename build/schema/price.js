@@ -243,27 +243,23 @@ PriceTC.addResolver({
     var _resolve4 = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
     _regenerator["default"].mark(function _callee5(_ref5) {
-      var args, source, context, indexDate;
+      var args, source, context, indexDate, latestPrices;
       return _regenerator["default"].wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
               args = _ref5.args, source = _ref5.source, context = _ref5.context;
               indexDate = format(subDays(new Date(), 1), 'yyyy-MM-dd') + "T00:00:00.000Z";
-              _context5.next = 4;
-              return Price.find({
-                'ticker': {
-                  $in: _.map(_universe["default"].universe, 'ticker')
-                },
-                'date': indexDate
-              }).sort({
-                date: -1
+              latestPrices = _.map(_universe["default"].universe, function (priceObjects) {
+                return Price.findOne({
+                  ticker: priceObjects.ticker
+                }).sort({
+                  date: -1
+                });
               });
+              return _context5.abrupt("return", Promise.all(latestPrices));
 
             case 4:
-              return _context5.abrupt("return", _context5.sent);
-
-            case 5:
             case "end":
               return _context5.stop();
           }

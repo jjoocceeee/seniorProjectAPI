@@ -121,7 +121,10 @@ PriceTC.addResolver({
   type: ["Price"],
   resolve: async ({args, source, context}) => {
       let indexDate = format(subDays(new Date(), 1), 'yyyy-MM-dd')+"T00:00:00.000Z";
-      return await Price.find({'ticker': {$in: _.map(universe.universe, 'ticker')}, 'date': indexDate}).sort({ date: -1 });
+      let latestPrices = _.map(universe.universe, priceObjects => {
+        return Price.findOne({ticker: priceObjects.ticker}).sort({date: -1})
+      })
+      return Promise.all(latestPrices);
   }
 });
 
