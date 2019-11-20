@@ -242,60 +242,33 @@ PriceTC.addResolver({
   resolve: function () {
     var _resolve4 = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
-    _regenerator["default"].mark(function _callee6(_ref5) {
-      var args, source, context, indexDate, price_array;
-      return _regenerator["default"].wrap(function _callee6$(_context6) {
+    _regenerator["default"].mark(function _callee5(_ref5) {
+      var args, source, context, indexDate;
+      return _regenerator["default"].wrap(function _callee5$(_context5) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
               args = _ref5.args, source = _ref5.source, context = _ref5.context;
               indexDate = format(subDays(new Date(), 1), 'yyyy-MM-dd') + "T00:00:00.000Z";
-              console.log(indexDate);
-              price_array = [];
-              _context6.next = 6;
-              return Promise.all(_universe["default"].universe.map(
-              /*#__PURE__*/
-              function () {
-                var _ref6 = (0, _asyncToGenerator2["default"])(
-                /*#__PURE__*/
-                _regenerator["default"].mark(function _callee5(stock) {
-                  var prices;
-                  return _regenerator["default"].wrap(function _callee5$(_context5) {
-                    while (1) {
-                      switch (_context5.prev = _context5.next) {
-                        case 0:
-                          _context5.next = 2;
-                          return Price.findOne({
-                            'date': indexDate,
-                            'ticker': stock.ticker
-                          });
+              _context5.next = 4;
+              return Price.find({
+                'ticker': {
+                  $in: _.map(_universe["default"].universe, 'ticker')
+                },
+                'date': indexDate
+              }).sort({
+                date: -1
+              });
 
-                        case 2:
-                          prices = _context5.sent;
-                          if (prices) price_array.push(prices);
+            case 4:
+              return _context5.abrupt("return", _context5.sent);
 
-                        case 4:
-                        case "end":
-                          return _context5.stop();
-                      }
-                    }
-                  }, _callee5);
-                }));
-
-                return function (_x5) {
-                  return _ref6.apply(this, arguments);
-                };
-              }()));
-
-            case 6:
-              return _context6.abrupt("return", price_array);
-
-            case 7:
+            case 5:
             case "end":
-              return _context6.stop();
+              return _context5.stop();
           }
         }
-      }, _callee6);
+      }, _callee5);
     }));
 
     function resolve(_x4) {
@@ -315,23 +288,23 @@ PriceTC.addResolver({
  *
  */
 
-function checkPullBack(_x6, _x7, _x8, _x9) {
+function checkPullBack(_x5, _x6, _x7, _x8) {
   return _checkPullBack.apply(this, arguments);
 }
 
 function _checkPullBack() {
   _checkPullBack = (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
-  _regenerator["default"].mark(function _callee7(prevhigh, number, date, ticker) {
+  _regenerator["default"].mark(function _callee6(prevhigh, number, date, ticker) {
     var amount, indexDate, pullbackDate, prices, high, check;
-    return _regenerator["default"].wrap(function _callee7$(_context7) {
+    return _regenerator["default"].wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
             amount = number || -4;
             indexDate = new Date(date);
             pullbackDate = new Date(addDays(indexDate, amount));
-            _context7.next = 5;
+            _context6.next = 5;
             return Price.find({
               'date': {
                 $lte: indexDate,
@@ -341,7 +314,7 @@ function _checkPullBack() {
             });
 
           case 5:
-            prices = _context7.sent;
+            prices = _context6.sent;
             high = prevhigh;
             check = true;
 
@@ -351,34 +324,34 @@ function _checkPullBack() {
               }
             });
 
-            return _context7.abrupt("return", check);
+            return _context6.abrupt("return", check);
 
           case 10:
           case "end":
-            return _context7.stop();
+            return _context6.stop();
         }
       }
-    }, _callee7);
+    }, _callee6);
   }));
   return _checkPullBack.apply(this, arguments);
 }
 
-function CheckTwentyDay(_x10, _x11) {
+function CheckTwentyDay(_x9, _x10) {
   return _CheckTwentyDay.apply(this, arguments);
 }
 
 function _CheckTwentyDay() {
   _CheckTwentyDay = (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
-  _regenerator["default"].mark(function _callee8(date, ticker) {
+  _regenerator["default"].mark(function _callee7(date, ticker) {
     var indexDate, twentyBefore, prices, high, highPriceDate;
-    return _regenerator["default"].wrap(function _callee8$(_context8) {
+    return _regenerator["default"].wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context8.prev = _context8.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
             indexDate = new Date(date);
             twentyBefore = new Date(addDays(indexDate, -20));
-            _context8.next = 4;
+            _context7.next = 4;
             return Price.find({
               'date': {
                 $lte: indexDate,
@@ -388,7 +361,7 @@ function _CheckTwentyDay() {
             });
 
           case 4:
-            prices = _context8.sent;
+            prices = _context7.sent;
             high = 0.0;
             highPriceDate = indexDate;
 
@@ -400,18 +373,18 @@ function _CheckTwentyDay() {
             });
 
             if (!(differenceInDays(indexDate, highPriceDate) == 0)) {
-              _context8.next = 12;
+              _context7.next = 12;
               break;
             }
 
-            return _context8.abrupt("return", {
+            return _context7.abrupt("return", {
               highCheck: true,
               highDate: highPriceDate,
               highPrice: high
             });
 
           case 12:
-            return _context8.abrupt("return", {
+            return _context7.abrupt("return", {
               highCheck: false,
               highDate: highPriceDate,
               highPrice: high
@@ -419,10 +392,10 @@ function _CheckTwentyDay() {
 
           case 13:
           case "end":
-            return _context8.stop();
+            return _context7.stop();
         }
       }
-    }, _callee8);
+    }, _callee7);
   }));
   return _CheckTwentyDay.apply(this, arguments);
 }

@@ -10,8 +10,6 @@ var _schemaComposer = _interopRequireDefault(require("./schema/schemaComposer.js
 
 var mongoose = require('mongoose');
 
-var graphql = require('graphql');
-
 var cors = require('cors');
 
 var expressGraphql = require('express-graphql');
