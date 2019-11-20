@@ -2,6 +2,8 @@ const Alpaca = require('@alpacahq/alpaca-trade-api')
 var subDays = require('date-fns/subDays')
 import { composeWithMongoose } from 'graphql-compose-mongoose/node8';
 import mongoose, { mongo } from 'mongoose';
+
+
 const alpaca = new Alpaca({
   keyId: process.env.alpaca_api_key_id,
   secretKey: process.env.alpaca_api_secret_key,
