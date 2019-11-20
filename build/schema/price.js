@@ -64,50 +64,73 @@ var priceSchema = new _mongoose["default"].Schema({
     description: "Stock this price is associated with.",
     required: true,
     index: true
-  },
-  bull: {
-    type: Boolean,
-    desctption: "Whether or not the stock is up from the previous day."
-  }
-});
-priceSchema.post('save',
-/*#__PURE__*/
-(0, _asyncToGenerator2["default"])(
-/*#__PURE__*/
-_regenerator["default"].mark(function _callee() {
-  var prev, yestPrice;
-  return _regenerator["default"].wrap(function _callee$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          prev = momentTZ(this.date).tz("America/Phoenix").prevBusinessDay().format('YYYY-MM-DD') + "T00:00:00.000Z";
-          console.log("Previous: ", prev);
-          _context.next = 4;
-          return Price.findOne({
-            'date': prev,
-            'ticker': this.ticker
-          });
+  } // bull: {
+  //   type: Boolean,
+  //   desctption: "Whether or not the stock is up from the previous day."
+  // }
 
-        case 4:
-          yestPrice = _context.sent;
-
-          if (yestPrice) {
-            this.bull = prev.closePrice < this.openPrice;
-          }
-
-        case 6:
-        case "end":
-          return _context.stop();
-      }
-    }
-  }, _callee, this);
-})));
+}); // priceSchema.post('save', async function() {
+//     let yestPrice = Price.findOne({ticker: this.ticker}).sort({date: -1})
+//     if(yestPrice){
+//       this.bull= prev.closePrice < this.openPrice
+//     }
+// });
 
 var Price = _mongoose["default"].model('Price', priceSchema);
 
 var customizationOptions = {};
 var PriceTC = (0, _node.composeWithMongoose)(Price, customizationOptions);
 exports.PriceTC = PriceTC;
+PriceTC.addFields({
+  bull: function bull() {
+    return {
+      type: "Boolean",
+      resolve: function () {
+        var _resolve = (0, _asyncToGenerator2["default"])(
+        /*#__PURE__*/
+        _regenerator["default"].mark(function _callee(source) {
+          var yestPrice;
+          return _regenerator["default"].wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return Price.findOne({
+                    ticker: source.ticker
+                  }).sort({
+                    date: -1
+                  });
+
+                case 2:
+                  yestPrice = _context.sent;
+
+                  if (!yestPrice) {
+                    _context.next = 5;
+                    break;
+                  }
+
+                  return _context.abrupt("return", yestPrice.closePrice < source.openPrice);
+
+                case 5:
+                  return _context.abrupt("return", NULL);
+
+                case 6:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee);
+        }));
+
+        function resolve(_x) {
+          return _resolve.apply(this, arguments);
+        }
+
+        return resolve;
+      }()
+    };
+  }
+});
 PriceTC.addResolver({
   name: "checkTwentyDayHigh",
   type: "Boolean",
@@ -116,15 +139,15 @@ PriceTC.addResolver({
     ticker: "String!"
   },
   resolve: function () {
-    var _resolve = (0, _asyncToGenerator2["default"])(
+    var _resolve2 = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
-    _regenerator["default"].mark(function _callee2(_ref2) {
+    _regenerator["default"].mark(function _callee2(_ref) {
       var args, source, context;
       return _regenerator["default"].wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              args = _ref2.args, source = _ref2.source, context = _ref2.context;
+              args = _ref.args, source = _ref.source, context = _ref.context;
               _context2.next = 3;
               return CheckTwentyDay(args.date).highCheck;
 
@@ -139,8 +162,8 @@ PriceTC.addResolver({
       }, _callee2);
     }));
 
-    function resolve(_x) {
-      return _resolve.apply(this, arguments);
+    function resolve(_x2) {
+      return _resolve2.apply(this, arguments);
     }
 
     return resolve;
@@ -150,15 +173,15 @@ PriceTC.addResolver({
   name: "UpdateBull",
   type: "Boolean",
   resolve: function () {
-    var _resolve2 = (0, _asyncToGenerator2["default"])(
+    var _resolve3 = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
-    _regenerator["default"].mark(function _callee3(_ref3) {
+    _regenerator["default"].mark(function _callee3(_ref2) {
       var args, source, context, prev, prices1;
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              args = _ref3.args, source = _ref3.source, context = _ref3.context;
+              args = _ref2.args, source = _ref2.source, context = _ref2.context;
               prev = momentTZ(new Date()).tz("America/Phoenix").prevBusinessDay().format('YYYY-MM-DD') + "T00:00:00.000Z";
               _context3.next = 4;
               return Price.findOne({
@@ -177,8 +200,8 @@ PriceTC.addResolver({
       }, _callee3);
     }));
 
-    function resolve(_x2) {
-      return _resolve2.apply(this, arguments);
+    function resolve(_x3) {
+      return _resolve3.apply(this, arguments);
     }
 
     return resolve;
@@ -192,15 +215,15 @@ PriceTC.addResolver({
     ticker: "String!"
   },
   resolve: function () {
-    var _resolve3 = (0, _asyncToGenerator2["default"])(
+    var _resolve4 = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
-    _regenerator["default"].mark(function _callee4(_ref4) {
+    _regenerator["default"].mark(function _callee4(_ref3) {
       var args, source, context, indexDate, twentyDayHighDate, twenty;
       return _regenerator["default"].wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              args = _ref4.args, source = _ref4.source, context = _ref4.context;
+              args = _ref3.args, source = _ref3.source, context = _ref3.context;
               indexDate = new Date(args.date);
               twentyDayHighDate = new Date(addDays(indexDate, -24));
               _context4.next = 5;
@@ -228,8 +251,8 @@ PriceTC.addResolver({
       }, _callee4);
     }));
 
-    function resolve(_x3) {
-      return _resolve3.apply(this, arguments);
+    function resolve(_x4) {
+      return _resolve4.apply(this, arguments);
     }
 
     return resolve;
@@ -240,15 +263,15 @@ PriceTC.addResolver({
   name: "pricesUniverse",
   type: ["Price"],
   resolve: function () {
-    var _resolve4 = (0, _asyncToGenerator2["default"])(
+    var _resolve5 = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
-    _regenerator["default"].mark(function _callee5(_ref5) {
+    _regenerator["default"].mark(function _callee5(_ref4) {
       var args, source, context, indexDate, latestPrices;
       return _regenerator["default"].wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              args = _ref5.args, source = _ref5.source, context = _ref5.context;
+              args = _ref4.args, source = _ref4.source, context = _ref4.context;
               indexDate = format(subDays(new Date(), 1), 'yyyy-MM-dd') + "T00:00:00.000Z";
               latestPrices = _.map(_universe["default"].universe, function (priceObjects) {
                 return Price.findOne({
@@ -267,8 +290,8 @@ PriceTC.addResolver({
       }, _callee5);
     }));
 
-    function resolve(_x4) {
-      return _resolve4.apply(this, arguments);
+    function resolve(_x5) {
+      return _resolve5.apply(this, arguments);
     }
 
     return resolve;
@@ -284,7 +307,7 @@ PriceTC.addResolver({
  *
  */
 
-function checkPullBack(_x5, _x6, _x7, _x8) {
+function checkPullBack(_x6, _x7, _x8, _x9) {
   return _checkPullBack.apply(this, arguments);
 }
 
@@ -332,7 +355,7 @@ function _checkPullBack() {
   return _checkPullBack.apply(this, arguments);
 }
 
-function CheckTwentyDay(_x9, _x10) {
+function CheckTwentyDay(_x10, _x11) {
   return _CheckTwentyDay.apply(this, arguments);
 }
 

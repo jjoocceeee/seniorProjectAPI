@@ -45,29 +45,39 @@ const priceSchema = new mongoose.Schema({
     required: true,
     index:true
   },
-  bull: {
-    type: Boolean,
-    desctption: "Whether or not the stock is up from the previous day."
-  }
+  // bull: {
+  //   type: Boolean,
+  //   desctption: "Whether or not the stock is up from the previous day."
+  // }
 });
 
 
-priceSchema.post('save', async function() {
-  let prev = momentTZ(this.date).tz("America/Phoenix").prevBusinessDay().format('YYYY-MM-DD') + "T00:00:00.000Z";
-    console.log("Previous: ", prev)
-    let yestPrice = await Price.findOne({
-      'date':prev,
-      'ticker': this.ticker 
-    });
-    if(yestPrice){
-      this.bull= prev.closePrice < this.openPrice
-    }
-});
+
+
+// priceSchema.post('save', async function() {
+//     let yestPrice = Price.findOne({ticker: this.ticker}).sort({date: -1})
+//     if(yestPrice){
+//       this.bull= prev.closePrice < this.openPrice
+//     }
+// });
 
 const Price = mongoose.model('Price', priceSchema);
 const customizationOptions = {};
 const PriceTC = composeWithMongoose(Price, customizationOptions);
 
+
+PriceTC.addFields({
+  bull: () => ({
+    type: "Boolean",
+    resolve: async (source) => {
+      let yestPrice = await Price.findOne({ticker: source.ticker}).sort({date: -1})
+      if(yestPrice){
+        return yestPrice.closePrice < source.openPrice
+      }
+      return NULL;
+    }
+  })
+})
 PriceTC.addResolver({
   name: "checkTwentyDayHigh",
   type: "Boolean",
@@ -108,7 +118,6 @@ PriceTC.addResolver({
       let twentyDayHighDate = new Date(addDays(indexDate, -24));
       let twenty = await CheckTwentyDay(twentyDayHighDate);
       if(twenty.highCheck){
-        //Check for a pullback.
         return await checkPullBack(twenty.highPrice, -4, indexDate, args.ticker);
       }
   }
