@@ -26,7 +26,7 @@ schemaComposer.Query.addFields({
   fourCandleHammer: PriceTC.getResolver('fourCandleHammer'),
 
   getPositions: AccountTC.getResolver('getPositions'),
-  UpdateBull: PriceTC.getResolver('UpdateBull')
+  recentTweets: TweetTC.getResolver('RecentTweetsByTicker')
   
 });
 

@@ -72,27 +72,29 @@ AccountTC.addResolver({
   type: "JSON",
   resolve: async ({args, source, context}) => {
     let pos = await getPositions();
-    console.log(pos);
     return pos;
+  }
+});
+
+AccountTC.addResolver({
+  name: "getAccount",
+  type: "JSON",
+  resolve: async ({args, source, context}) => {
+    let acc = await getAccount();
+    return acc;
   }
 });
 
 
 async function getPositions(){
   let pos = await alpaca.getPositions();
-  console.log(pos);
-  return pos 
+  return pos;
 }
 
 async function getAccount(){
-  let acc = await alpaca.getAccount()
-  console.log(acc);
+  let acc = await alpaca.getAccount();
+  return acc;
 }
-
-
-
-
-
 
 
 

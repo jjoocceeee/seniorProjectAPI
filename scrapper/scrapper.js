@@ -80,12 +80,15 @@ async function recordOpenClose(date, priceObject, ticker){
       console.log("Error: ", e)
     });
     
-    // if(response.status != 200){
-    //   console.log("There was an error in the response: ", response.status);
-    //   return;
-    // }
-    // console.log(response.data);
+}
 
+
+
+
+async function recordPortfolio(){
+  let date = momentTZ(new Date()).tz("America/Phoenix").format('YYYY-MM-DD') + "T00:00:00.000Z";
+  console.log("date: ", date);
+  
 }
 
 

@@ -44,22 +44,9 @@ const priceSchema = new mongoose.Schema({
     description: "Stock this price is associated with.",
     required: true,
     index:true
-  },
-  // bull: {
-  //   type: Boolean,
-  //   desctption: "Whether or not the stock is up from the previous day."
-  // }
+  }
 });
 
-
-
-
-// priceSchema.post('save', async function() {
-//     let yestPrice = Price.findOne({ticker: this.ticker}).sort({date: -1})
-//     if(yestPrice){
-//       this.bull= prev.closePrice < this.openPrice
-//     }
-// });
 
 const Price = mongoose.model('Price', priceSchema);
 const customizationOptions = {};
@@ -78,6 +65,7 @@ PriceTC.addFields({
     }
   })
 })
+
 PriceTC.addResolver({
   name: "checkTwentyDayHigh",
   type: "Boolean",
@@ -90,21 +78,6 @@ PriceTC.addResolver({
   }
 })
 
-
-PriceTC.addResolver({
-  name: "UpdateBull",
-  type: "Boolean",
-  resolve: async({args, source, context}) => {
-    let prev = momentTZ(new Date()).tz("America/Phoenix").prevBusinessDay().format('YYYY-MM-DD') + "T00:00:00.000Z";
-
-    let prices1 = await Price.findOne({
-      'date':prev,
-      'ticker': args.ticker
-    });
-
-
-  }
-})
 
 PriceTC.addResolver({
   name: "fourCandleHammer",

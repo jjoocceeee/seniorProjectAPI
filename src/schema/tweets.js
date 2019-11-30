@@ -32,4 +32,18 @@ const Tweet = mongoose.model('Tweet', TweetSchema);
 const customizationOptions = {};
 const TweetTC = composeWithMongoose(Tweet, customizationOptions);
 
+TweetTC.addResolver({
+  name:"RecentTweetsByTicker",  
+  args: {
+      ticker: "String!"
+    },
+    type: ["Tweet"],
+    resolve: async ({args, source, context}) => {
+      console.log("Args.ticker: ", args.ticker);
+      let tweets = await Tweet.find({company: args.ticker}).sort({date: -1}).limit(10);
+      return tweets;
+    }
+  })
+
+
 export { TweetTC };
