@@ -93,10 +93,9 @@ AccountTC.addResolver({
 
             case 3:
               pos = _context.sent;
-              console.log(pos);
               return _context.abrupt("return", pos);
 
-            case 6:
+            case 5:
             case "end":
               return _context.stop();
           }
@@ -111,6 +110,41 @@ AccountTC.addResolver({
     return resolve;
   }()
 });
+AccountTC.addResolver({
+  name: "getAccount",
+  type: "JSON",
+  resolve: function () {
+    var _resolve2 = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee2(_ref2) {
+      var args, source, context, acc;
+      return _regenerator["default"].wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              args = _ref2.args, source = _ref2.source, context = _ref2.context;
+              _context2.next = 3;
+              return getAccount();
+
+            case 3:
+              acc = _context2.sent;
+              return _context2.abrupt("return", acc);
+
+            case 5:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function resolve(_x2) {
+      return _resolve2.apply(this, arguments);
+    }
+
+    return resolve;
+  }()
+});
 
 function getPositions() {
   return _getPositions.apply(this, arguments);
@@ -119,26 +153,25 @@ function getPositions() {
 function _getPositions() {
   _getPositions = (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
-  _regenerator["default"].mark(function _callee2() {
+  _regenerator["default"].mark(function _callee3() {
     var pos;
-    return _regenerator["default"].wrap(function _callee2$(_context2) {
+    return _regenerator["default"].wrap(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
-            _context2.next = 2;
+            _context3.next = 2;
             return alpaca.getPositions();
 
           case 2:
-            pos = _context2.sent;
-            console.log(pos);
-            return _context2.abrupt("return", pos);
+            pos = _context3.sent;
+            return _context3.abrupt("return", pos);
 
-          case 5:
+          case 4:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
-    }, _callee2);
+    }, _callee3);
   }));
   return _getPositions.apply(this, arguments);
 }
@@ -150,25 +183,25 @@ function getAccount() {
 function _getAccount() {
   _getAccount = (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
-  _regenerator["default"].mark(function _callee3() {
+  _regenerator["default"].mark(function _callee4() {
     var acc;
-    return _regenerator["default"].wrap(function _callee3$(_context3) {
+    return _regenerator["default"].wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.next = 2;
+            _context4.next = 2;
             return alpaca.getAccount();
 
           case 2:
-            acc = _context3.sent;
-            console.log(acc);
+            acc = _context4.sent;
+            return _context4.abrupt("return", acc);
 
           case 4:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3);
+    }, _callee4);
   }));
   return _getAccount.apply(this, arguments);
 }
