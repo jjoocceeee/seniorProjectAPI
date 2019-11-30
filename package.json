@@ -42,7 +42,7 @@
     "dev": "nodemon --exec babel-node src/index.js",
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./src -s",
-    "build-local": "npm run clean && npm run build-babel",
+    "xcm": "npm run clean && npm run build-babel",
     "start": "node ./build/index.js",
     "scrapper": "node ./scrapper/scrapper.js",
     "createUniverse": "node ./scrapper/createUniverse.js"

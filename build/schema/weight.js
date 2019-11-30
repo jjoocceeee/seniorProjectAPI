@@ -64,33 +64,34 @@ var customizationOptions = {};
 var WeightTC = (0, _node.composeWithMongoose)(Weight, customizationOptions);
 exports.WeightTC = WeightTC;
 WeightTC.addResolver({
-  name: "MostRecentWeight",
-  type: "Weight",
+  name: "RecentWeights",
   args: {
+    count: "Int!",
     ticker: "String!"
   },
+  type: [WeightTC],
   resolve: function () {
     var _resolve = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
     _regenerator["default"].mark(function _callee(_ref) {
-      var args, source, context, response;
+      var args, source, context, weights;
       return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               args = _ref.args, source = _ref.source, context = _ref.context;
-              console.log("Getting most recent weight.");
+              console.log("Args.ticker: ", args.ticker, " Counter: ", args.count);
               _context.next = 4;
               return Weight.find({
-                'ticker': args.ticker
+                company: args.ticker
               }).sort({
-                _id: -1
-              });
+                date: -1
+              }).limit(args.count);
 
             case 4:
-              response = _context.sent;
-              console.log(response);
-              return _context.abrupt("return", response[0]);
+              weights = _context.sent;
+              console.log("weights: ", weights);
+              return _context.abrupt("return", weights);
 
             case 7:
             case "end":
@@ -102,6 +103,50 @@ WeightTC.addResolver({
 
     function resolve(_x) {
       return _resolve.apply(this, arguments);
+    }
+
+    return resolve;
+  }()
+});
+WeightTC.addResolver({
+  name: "MostRecentWeight",
+  type: "Weight",
+  args: {
+    ticker: "String!"
+  },
+  resolve: function () {
+    var _resolve2 = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee2(_ref2) {
+      var args, source, context, response;
+      return _regenerator["default"].wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              args = _ref2.args, source = _ref2.source, context = _ref2.context;
+              console.log("Getting most recent weight.");
+              _context2.next = 4;
+              return Weight.find({
+                'ticker': args.ticker
+              }).sort({
+                _id: -1
+              });
+
+            case 4:
+              response = _context2.sent;
+              console.log(response);
+              return _context2.abrupt("return", response[0]);
+
+            case 7:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function resolve(_x2) {
+      return _resolve2.apply(this, arguments);
     }
 
     return resolve;

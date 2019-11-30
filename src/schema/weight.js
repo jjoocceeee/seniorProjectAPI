@@ -48,6 +48,21 @@ const customizationOptions = {};
 export const WeightTC = composeWithMongoose(Weight, customizationOptions);
 
 WeightTC.addResolver({
+  name:"RecentWeights",  
+  args: {
+      count: "Int!",
+      ticker: "String!"
+    },
+    type: [WeightTC],
+    resolve: async ({args, source, context}) => {
+      console.log("Args.ticker: ", args.ticker," Counter: ",  args.count);
+      let weights = await Weight.find({company: args.ticker}).sort({date: -1}).limit(args.count);
+      console.log("weights: ", weights);
+      return weights;
+    }
+  })
+
+WeightTC.addResolver({
   name: "MostRecentWeight",
   type: "Weight",
   args: {

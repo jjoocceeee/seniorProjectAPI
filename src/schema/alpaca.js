@@ -53,11 +53,6 @@ const PortfolioSchema = new mongoose.Schema({
 
 
 
-
-
-
-
-
 const Account = mongoose.model('Account', AccountSchema);
 const Portfolio = mongoose.model('Portfolio', PortfolioSchema);
 
