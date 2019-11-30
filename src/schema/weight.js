@@ -53,14 +53,15 @@ WeightTC.addResolver({
       count: "Int!",
       ticker: "String!"
     },
-    type: [WeightTC],
+    type: ["Weight"],
     resolve: async ({args, source, context}) => {
-      console.log("Args.ticker: ", args.ticker," Counter: ",  args.count);
-      let weights = await Weight.find({company: args.ticker}).sort({date: -1}).limit(args.count);
-      console.log("weights: ", weights);
+      let weights = await Weight.find({'ticker': args.ticker}).sort({date: -1}).limit(args.count);
       return weights;
     }
   })
+
+
+
 
 WeightTC.addResolver({
   name: "MostRecentWeight",
@@ -69,10 +70,7 @@ WeightTC.addResolver({
     ticker: "String!"
   },
   resolve: async ({args, source, context}) => {
-    console.log("Getting most recent weight.");
-
     let response = await Weight.find({'ticker':args.ticker}).sort({ _id: -1 });
-    console.log(response);
     return response[0];
   }
 })

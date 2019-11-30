@@ -6,7 +6,8 @@ const TweetSchema = new mongoose.Schema({
     type:String,
     required: true,
     description: "Tweet",
-    index:true
+    index:true,
+    uppercase: true
   },
   rating: {
     type: Number,

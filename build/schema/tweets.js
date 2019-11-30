@@ -22,7 +22,8 @@ var TweetSchema = new _mongoose["default"].Schema({
     type: String,
     required: true,
     description: "Tweet",
-    index: true
+    index: true,
+    uppercase: true
   },
   rating: {
     type: Number,
