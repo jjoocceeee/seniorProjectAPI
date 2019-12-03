@@ -69,7 +69,7 @@ WeightTC.addResolver({
     count: "Int!",
     ticker: "String!"
   },
-  type: [WeightTC],
+  type: ["Weight"],
   resolve: function () {
     var _resolve = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
@@ -80,20 +80,18 @@ WeightTC.addResolver({
           switch (_context.prev = _context.next) {
             case 0:
               args = _ref.args, source = _ref.source, context = _ref.context;
-              console.log("Args.ticker: ", args.ticker, " Counter: ", args.count);
-              _context.next = 4;
+              _context.next = 3;
               return Weight.find({
-                company: args.ticker
+                'ticker': args.ticker
               }).sort({
                 date: -1
               }).limit(args.count);
 
-            case 4:
+            case 3:
               weights = _context.sent;
-              console.log("weights: ", weights);
               return _context.abrupt("return", weights);
 
-            case 7:
+            case 5:
             case "end":
               return _context.stop();
           }
@@ -124,20 +122,18 @@ WeightTC.addResolver({
           switch (_context2.prev = _context2.next) {
             case 0:
               args = _ref2.args, source = _ref2.source, context = _ref2.context;
-              console.log("Getting most recent weight.");
-              _context2.next = 4;
+              _context2.next = 3;
               return Weight.find({
                 'ticker': args.ticker
               }).sort({
                 _id: -1
               });
 
-            case 4:
+            case 3:
               response = _context2.sent;
-              console.log(response);
               return _context2.abrupt("return", response[0]);
 
-            case 7:
+            case 5:
             case "end":
               return _context2.stop();
           }

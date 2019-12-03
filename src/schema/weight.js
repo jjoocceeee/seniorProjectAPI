@@ -76,4 +76,16 @@ WeightTC.addResolver({
 })
 
 
+WeightTC.addResolver({
+  name: "AllWeightsTicker",
+  type: ["Weight"],
+  args: {
+    ticker: "String!"
+  },
+  resolve: async ({args, source, context}) => {
+    let response = await Weight.find({'ticker':args.ticker}).sort({ _id: -1 });
+    return response;
+  }
+})
+
 
