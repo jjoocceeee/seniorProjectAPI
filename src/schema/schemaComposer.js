@@ -28,7 +28,9 @@ schemaComposer.Query.addFields({
   getPositions: AccountTC.getResolver('getPositions'),
   recentTweets: TweetTC.getResolver('RecentTweetsByTicker'),
   RecentWeights: WeightTC.getResolver('RecentWeights'),
-  AllWeightsTicker: WeightTC.getResolver('AllWeightsTicker')
+  AllWeightsTicker: WeightTC.getResolver('AllWeightsTicker'),
+  TweetCount: TweetTC.getResolver('TweetCount'),
+  WeightCount: WeightTC.getResolver('WeightCount')
   
 });
 

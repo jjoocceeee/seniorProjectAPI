@@ -46,5 +46,14 @@ TweetTC.addResolver({
     }
   })
 
+  TweetTC.addResolver({
+    name:"TweetCount",  
+    description:"Count of total tweets analyzed.",
+    type: "Int",
+    resolve: async ({args, source, context}) => {
+      return await Tweet.count();
+    }
+  })
+
 
 export { TweetTC };

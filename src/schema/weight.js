@@ -1,6 +1,7 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose/node8';
 import mongoose, { mongo } from 'mongoose';
 import { schemaComposer } from 'graphql-compose';
+import _ from "lodash"
 
 
 const weightSchema = new mongoose.Schema({
@@ -87,5 +88,15 @@ WeightTC.addResolver({
     return response;
   }
 })
+
+WeightTC.addResolver({
+  name:"WeightCount",  
+  description:"Count of total weights in ML algorithm.",
+  type: "Int",
+  resolve: async ({args, source, context}) => {
+    return await Weight.count();
+  }
+})
+
 
 
