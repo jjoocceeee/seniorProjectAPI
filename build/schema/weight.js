@@ -19,6 +19,8 @@ var _mongoose = _interopRequireWildcard(require("mongoose"));
 
 var _graphqlCompose = require("graphql-compose");
 
+var _lodash = _interopRequireDefault(require("lodash"));
+
 var weightSchema = new _mongoose["default"].Schema({
   ticker: {
     type: String,
@@ -143,6 +145,83 @@ WeightTC.addResolver({
 
     function resolve(_x2) {
       return _resolve2.apply(this, arguments);
+    }
+
+    return resolve;
+  }()
+});
+WeightTC.addResolver({
+  name: "AllWeightsTicker",
+  type: ["Weight"],
+  args: {
+    ticker: "String!"
+  },
+  resolve: function () {
+    var _resolve3 = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee3(_ref3) {
+      var args, source, context, response;
+      return _regenerator["default"].wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              args = _ref3.args, source = _ref3.source, context = _ref3.context;
+              _context3.next = 3;
+              return Weight.find({
+                'ticker': args.ticker
+              }).sort({
+                _id: -1
+              });
+
+            case 3:
+              response = _context3.sent;
+              return _context3.abrupt("return", response);
+
+            case 5:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function resolve(_x3) {
+      return _resolve3.apply(this, arguments);
+    }
+
+    return resolve;
+  }()
+});
+WeightTC.addResolver({
+  name: "WeightCount",
+  description: "Count of total weights in ML algorithm.",
+  type: "Int",
+  resolve: function () {
+    var _resolve4 = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee4(_ref4) {
+      var args, source, context;
+      return _regenerator["default"].wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              args = _ref4.args, source = _ref4.source, context = _ref4.context;
+              _context4.next = 3;
+              return Weight.count();
+
+            case 3:
+              return _context4.abrupt("return", _context4.sent);
+
+            case 4:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }));
+
+    function resolve(_x4) {
+      return _resolve4.apply(this, arguments);
     }
 
     return resolve;

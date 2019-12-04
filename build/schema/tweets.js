@@ -91,4 +91,39 @@ TweetTC.addResolver({
     return resolve;
   }()
 });
+TweetTC.addResolver({
+  name: "TweetCount",
+  description: "Count of total tweets analyzed.",
+  type: "Int",
+  resolve: function () {
+    var _resolve2 = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee2(_ref2) {
+      var args, source, context;
+      return _regenerator["default"].wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              args = _ref2.args, source = _ref2.source, context = _ref2.context;
+              _context2.next = 3;
+              return Tweet.count();
+
+            case 3:
+              return _context2.abrupt("return", _context2.sent);
+
+            case 4:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function resolve(_x2) {
+      return _resolve2.apply(this, arguments);
+    }
+
+    return resolve;
+  }()
+});
 //# sourceMappingURL=tweets.js.map
