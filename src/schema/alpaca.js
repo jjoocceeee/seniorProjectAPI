@@ -2,6 +2,8 @@ const Alpaca = require('@alpacahq/alpaca-trade-api')
 var subDays = require('date-fns/subDays')
 import { composeWithMongoose } from 'graphql-compose-mongoose/node8';
 import mongoose, { mongo } from 'mongoose';
+import _ from 'lodash'
+
 
 
 const alpaca = new Alpaca({
@@ -80,6 +82,42 @@ AccountTC.addResolver({
   }
 });
 
+AccountTC.addResolver({
+  name: "getTrades",
+  args:{
+    fromDate: "Date",
+    toDate: "Date"
+  },
+  type: "JSON",
+  resolve: async ({args, source, context}) =>{
+    let from;
+    let to;
+    if(!args.fromDate){
+      from = subDays(new Date(), 50);
+    } else{
+      from = args.fromDate;
+    }
+    if(!args.toDate){
+      to = new Date();
+    } else{
+      to = args.toDate;
+    }
+
+
+    let trades = await getTrades(from, to);
+    return _.map(trades, trade=>{
+      return {
+        "ticker": trade.symbol,
+        "qty":trade.qty,
+        "side":trade.side,
+        "date":trade.filled_at,
+        "price_per_stock":trade.filled_avg_price
+      }
+    })
+    
+  }
+})
+
 
 async function getPositions(){
   let pos = await alpaca.getPositions();
@@ -89,6 +127,16 @@ async function getPositions(){
 async function getAccount(){
   let acc = await alpaca.getAccount();
   return acc;
+}
+
+async function getTrades(after, until){
+  let trades = await alpaca.getOrders({
+    status: 'all',
+    after: after,
+    until: until,
+    direction: 'asc'
+  })
+  return trades
 }
 
 

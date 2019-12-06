@@ -34,6 +34,7 @@ _graphqlCompose.schemaComposer.Query.addFields({
   fourCandleHammer: _price.PriceTC.getResolver('fourCandleHammer'),
   getPositions: _alpaca.AccountTC.getResolver('getPositions'),
   getAccount: _alpaca.AccountTC.getResolver('getAccount'),
+  getTrades: _alpaca.AccountTC.getResolver('getTrades'),
   recentTweets: _tweets.TweetTC.getResolver('RecentTweetsByTicker'),
   RecentWeights: _weight.WeightTC.getResolver('RecentWeights'),
   AllWeightsTicker: _weight.WeightTC.getResolver('AllWeightsTicker'),

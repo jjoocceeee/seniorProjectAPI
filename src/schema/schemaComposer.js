@@ -27,12 +27,12 @@ schemaComposer.Query.addFields({
 
   getPositions: AccountTC.getResolver('getPositions'),
   getAccount: AccountTC.getResolver('getAccount'),
+  getTrades: AccountTC.getResolver('getTrades'),
   recentTweets: TweetTC.getResolver('RecentTweetsByTicker'),
   RecentWeights: WeightTC.getResolver('RecentWeights'),
   AllWeightsTicker: WeightTC.getResolver('AllWeightsTicker'),
   TweetCount: TweetTC.getResolver('TweetCount'),
-  WeightCount: WeightTC.getResolver('WeightCount')
-  
+  WeightCount: WeightTC.getResolver('WeightCount'),
 });
 
 schemaComposer.Mutation.addFields({

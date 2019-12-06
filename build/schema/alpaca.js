@@ -17,6 +17,8 @@ var _node = require("graphql-compose-mongoose/node8");
 
 var _mongoose = _interopRequireWildcard(require("mongoose"));
 
+var _lodash = _interopRequireDefault(require("lodash"));
+
 var Alpaca = require('@alpacahq/alpaca-trade-api');
 
 var subDays = require('date-fns/subDays');
@@ -145,6 +147,66 @@ AccountTC.addResolver({
     return resolve;
   }()
 });
+AccountTC.addResolver({
+  name: "getTrades",
+  args: {
+    fromDate: "Date",
+    toDate: "Date"
+  },
+  type: "JSON",
+  resolve: function () {
+    var _resolve3 = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee3(_ref3) {
+      var args, source, context, from, to, trades;
+      return _regenerator["default"].wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              args = _ref3.args, source = _ref3.source, context = _ref3.context;
+
+              if (!args.fromDate) {
+                from = subDays(new Date(), 50);
+              } else {
+                from = args.fromDate;
+              }
+
+              if (!args.toDate) {
+                to = new Date();
+              } else {
+                to = args.toDate;
+              }
+
+              _context3.next = 5;
+              return getTrades(from, to);
+
+            case 5:
+              trades = _context3.sent;
+              return _context3.abrupt("return", _lodash["default"].map(trades, function (trade) {
+                return {
+                  "ticker": trade.symbol,
+                  "qty": trade.qty,
+                  "side": trade.side,
+                  "date": trade.filled_at,
+                  "price_per_stock": trade.filled_avg_price
+                };
+              }));
+
+            case 7:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function resolve(_x3) {
+      return _resolve3.apply(this, arguments);
+    }
+
+    return resolve;
+  }()
+});
 
 function getPositions() {
   return _getPositions.apply(this, arguments);
@@ -153,25 +215,25 @@ function getPositions() {
 function _getPositions() {
   _getPositions = (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
-  _regenerator["default"].mark(function _callee3() {
+  _regenerator["default"].mark(function _callee4() {
     var pos;
-    return _regenerator["default"].wrap(function _callee3$(_context3) {
+    return _regenerator["default"].wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.next = 2;
+            _context4.next = 2;
             return alpaca.getPositions();
 
           case 2:
-            pos = _context3.sent;
-            return _context3.abrupt("return", pos);
+            pos = _context4.sent;
+            return _context4.abrupt("return", pos);
 
           case 4:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3);
+    }, _callee4);
   }));
   return _getPositions.apply(this, arguments);
 }
@@ -183,26 +245,61 @@ function getAccount() {
 function _getAccount() {
   _getAccount = (0, _asyncToGenerator2["default"])(
   /*#__PURE__*/
-  _regenerator["default"].mark(function _callee4() {
+  _regenerator["default"].mark(function _callee5() {
     var acc;
-    return _regenerator["default"].wrap(function _callee4$(_context4) {
+    return _regenerator["default"].wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
-            _context4.next = 2;
+            _context5.next = 2;
             return alpaca.getAccount();
 
           case 2:
-            acc = _context4.sent;
-            return _context4.abrupt("return", acc);
+            acc = _context5.sent;
+            return _context5.abrupt("return", acc);
 
           case 4:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4);
+    }, _callee5);
   }));
   return _getAccount.apply(this, arguments);
+}
+
+function getTrades(_x4, _x5) {
+  return _getTrades.apply(this, arguments);
+}
+
+function _getTrades() {
+  _getTrades = (0, _asyncToGenerator2["default"])(
+  /*#__PURE__*/
+  _regenerator["default"].mark(function _callee6(after, until) {
+    var trades;
+    return _regenerator["default"].wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.next = 2;
+            return alpaca.getOrders({
+              status: 'all',
+              after: after,
+              until: until,
+              direction: 'asc'
+            });
+
+          case 2:
+            trades = _context6.sent;
+            return _context6.abrupt("return", trades);
+
+          case 4:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6);
+  }));
+  return _getTrades.apply(this, arguments);
 }
 //# sourceMappingURL=alpaca.js.map
