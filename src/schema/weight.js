@@ -50,6 +50,7 @@ export const WeightTC = composeWithMongoose(Weight, customizationOptions);
 
 WeightTC.addResolver({
   name:"RecentWeights",  
+  description:"Will provide recents weights for the ticker. The number of weights is determined by the count argument.",
   args: {
       count: "Int!",
       ticker: "String!"
@@ -66,6 +67,7 @@ WeightTC.addResolver({
 
 WeightTC.addResolver({
   name: "MostRecentWeight",
+  description:"Provides the most recent weight.",
   type: "Weight",
   args: {
     ticker: "String!"

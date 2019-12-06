@@ -26,6 +26,7 @@ schemaComposer.Query.addFields({
   fourCandleHammer: PriceTC.getResolver('fourCandleHammer'),
 
   getPositions: AccountTC.getResolver('getPositions'),
+  getAccount: AccountTC.getResolver('getAccount'),
   recentTweets: TweetTC.getResolver('RecentTweetsByTicker'),
   RecentWeights: WeightTC.getResolver('RecentWeights'),
   AllWeightsTicker: WeightTC.getResolver('AllWeightsTicker'),
