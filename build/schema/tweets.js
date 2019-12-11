@@ -70,7 +70,7 @@ TweetTC.addResolver({
                 company: args.ticker
               }).sort({
                 date: -1
-              }).limit(50);
+              }).limit(200);
 
             case 4:
               tweets = _context.sent;
