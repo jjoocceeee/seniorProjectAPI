@@ -31,8 +31,6 @@ if(response.status != 200){
   });
 }
 
-
-
 /*
  * Will input the daily stock prices recieved from Alpha Vantage into the database. 
  *
@@ -88,10 +86,7 @@ async function recordOpenClose(date, priceObject, ticker){
 async function recordPortfolio(){
   let date = momentTZ(new Date()).tz("America/Phoenix").format('YYYY-MM-DD') + "T00:00:00.000Z";
   console.log("date: ", date);
-  
 }
-
-
 // let priceObject = {}
 // let priceObject = { '1. open': '120.6400',
 // '2. high': '120.9800',

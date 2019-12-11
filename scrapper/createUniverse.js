@@ -101,8 +101,3 @@ async function addToUniverse(ip_date, ticker, company){
 }
 
 createUniverse();
-
-
-
-// TODO: Get last updated date 
-

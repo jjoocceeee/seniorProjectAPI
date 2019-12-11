@@ -41,7 +41,7 @@ TweetTC.addResolver({
     type: ["Tweet"],
     resolve: async ({args, source, context}) => {
       console.log("Args.ticker: ", args.ticker);
-      let tweets = await Tweet.find({company: args.ticker}).sort({date: -1}).limit(10);
+      let tweets = await Tweet.find({company: args.ticker}).sort({date: -1}).limit(50);
       return tweets;
     }
   })
